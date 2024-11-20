@@ -28,6 +28,7 @@
 
     <div>
       <% if user_signed_in?%>
+      <%=link_to "Add Product", new_product_path%>
         <%= link_to "Profile", edit_user_registration_path%>
         <%= button_to "Sign Out", destroy_user_session_path, method: :delete%>
       <% else %>

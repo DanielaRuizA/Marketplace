@@ -1,4 +1,8 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user!, except: [ :index, :show  ]
+  before_action :set_product, only: [ :edit, :update, :destroy ]
+  before_action :authorize_user!, only: [ :edit, :update, :destroy ]
+
   def index
     @products = Product.all
   end
@@ -15,37 +19,45 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(product_params)
+    @product = current_user.products.build(product_params)
     if @product.save
-      redirect_to @product
+      redirect_to @product, notice: "Producto creado con éxito!"
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
   def edit
-    @product = Product.find(params[:id])
-  rescue ActiveRecord::RecordNotFound => e
-    logger.error "Product not found: #{e.message} (ID: #{params[:id]})"
-    redirect_to products_path
+    # @product ya se define en set_product
   end
 
   def update
-    @product = Product.find(params[:id])
     if @product.update(product_params)
       redirect_to @product
     else
-      render :edit,  status: :unprocessable_entity
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @product = Product.find(params[:id])
     @product.destroy
     redirect_to root_path
   end
 
   private
+
+  def set_product
+    @product = Product.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => e
+    redirect_to products_path, alert: "Product not found"
+  end
+
+  def authorize_user!
+    if @product.user != current_user
+      redirect_to products_path, alert: "Not authorized to modify this product"
+    end
+  end
+
   def product_params
     params.require(:product).permit(:name, :description, :price)
   end
