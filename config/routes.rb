@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   get "/products/:id", to: "products#show", as: :product
   post "/products", to: "products#create", as: :products
 
+  get 'my_products', to: 'products#my_products', as: 'my_products'
+
   # Defines the root path route ("/")
   root "products#index"
 end

@@ -21,9 +21,10 @@ class ProductsController < ApplicationController
   def create
     @product = current_user.products.build(product_params)
     if @product.save
-      redirect_to @product, notice: "Producto creado con éxito!"
+      redirect_to @product, notice: "Product was successfully created."
     else
-      render :new
+      flash.now[:alert] = "There were some errors with your submission."
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -44,12 +45,16 @@ class ProductsController < ApplicationController
     redirect_to root_path
   end
 
+  def my_products
+    @products = current_user.products
+  end
+
   private
 
   def set_product
     @product = Product.find(params[:id])
   rescue ActiveRecord::RecordNotFound => e
-    redirect_to products_path, alert: "Product not found"
+    redirect_to products_path, alert: "Product not found" 
   end
 
   def authorize_user!

@@ -1,15 +1,24 @@
-<h1>Product List</h1>
+<h1 class="text-center my-4">Product List</h1>
 
-<% @products.each do |product| %>
-  <div>
-    <h2><%= link_to product.name, product %></h2>
-    <p>Price: <%= product.price %></p>
-    <p>Description: <%= product.description %></p> 
-    <p>Category: <%= product.category.name %></p>
-    <p>Created by: <%= product.user.name %></p>
-
-    <% if user_signed_in? && current_user == product.user %>
-      <%= link_to "Edit", edit_product_path(product), class: "btn btn-primary" %>
+<div class="container">
+  <div class="row">
+    <% @products.each do |product| %>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="card-title h5">
+              <%= link_to product.name, product, class: "text-decoration-none text-dark" %>
+            </h2>
+            <p class="card-text mb-2"><strong>Price:</strong> $<%= product.price %></p>
+            <p class="card-text mb-2"><strong>Description:</strong> <%= product.description %></p>
+            <p class="card-text mb-2"><strong>Category:</strong> <%= product.category.name %></p>
+            <p class="card-text text-muted"><small>Created by: <%= product.user.name %></small></p>
+            <% if user_signed_in? && current_user == product.user %>
+              <%= link_to "Edit", edit_product_path(product), class: "btn btn-primary btn-sm mt-2" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
-<% end %>
+</div>
