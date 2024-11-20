@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   before_action :authorize_user!, only: [ :edit, :update, :destroy ]
 
   def index
-    @products = Product.all
+    @products = Product.includes(:category).all
   end
 
   def show
@@ -59,6 +59,6 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :price)
+    params.require(:product).permit(:name, :description, :price, :category_id)
   end
 end

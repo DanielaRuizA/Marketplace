@@ -4,4 +4,6 @@ class Product < ApplicationRecord
   validates :price, numericality: { greater_than: 900 }
 
   belongs_to :user
+
+  belongs_to :category
 end

@@ -27,6 +27,11 @@
   </div>
 
   <div>
+    <%= form.label :category, "Category" %>
+    <%= form.select :category_id, options_for_select(Category.all.map { |c| [c.name, c.id] }, @product.category_id), class: "form-control" %>
+  </div>
+  
+  <div>
     <%= form.submit "Edit Product", class: "btn btn-primary" %>
   </div>
 
