@@ -1,0 +1,35 @@
+<h2>Edit  Product</h2>
+<%= form_with model: @product, local: true do |form| %>
+  <% if form.object.errors.any? %>
+    <div id="error_explanation">
+      <h3><%= pluralize(form.object.errors.count, "error") %> prohibited this product from being edit:</h3>
+      <ul>
+        <% form.object.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, "Product Name" %>
+    <%= form.text_field :name, placeholder: "Enter product name", class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Product Description" %>
+    <%= form.text_area :description, placeholder: "Enter product description", class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.label :price, "Product Price" %>
+    <%= form.number_field :price, step: 1000, placeholder: "Enter product price", class: "form-control", min: 0 %>
+  </div>
+
+  <div>
+    <%= form.submit "Edit Product", class: "btn btn-primary" %>
+  </div>
+
+<% end %>
+
+<%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
