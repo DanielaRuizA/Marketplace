@@ -1,16 +1,27 @@
-<h2>Resend unlock instructions</h2>
+<div class="container mt-5">
+  <h2 class="text-center">Resend Unlock Instructions</h2>
 
-<%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
+        <div class="alert alert-danger" role="alert">
+          <%= render "users/shared/error_messages", resource: resource %>
+        </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        <div class="mb-3">
+          <%= f.label :email, class: "form-label" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+        </div>
+
+        <div class="text-center">
+          <%= f.submit "Resend Unlock Instructions", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Resend unlock instructions" %>
+  <div class="text-center mt-3">
+    <%= render "users/shared/links" %>
   </div>
-<% end %>
+</div>
 
-<%= render "users/shared/links" %>
