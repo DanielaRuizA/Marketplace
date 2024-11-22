@@ -9,10 +9,16 @@
             <h2 class="card-title h5">
               <%= link_to product.name, product, class: "text-decoration-none text-dark" %>
             </h2>
+            <% if product.img.attached? %>
+            <div class="product-image">
+              <%= image_tag product.img, class: "img-fluid", alt: product.name %>
+            </div>
+            <% end %>
             <p class="card-text mb-2"><strong>Price:</strong> $<%= product.price %></p>
             <p class="card-text mb-2"><strong>Description:</strong> <%= product.description %></p>
             <p class="card-text mb-2"><strong>Category:</strong> <%= product.category.name %></p>
             <p class="card-text text-muted"><small>Created by: <%= product.user.name %></small></p>
+            
             <% if user_signed_in? && current_user == product.user %>
               <%= link_to "Edit", edit_product_path(product), class: "btn btn-primary btn-sm mt-2" %>
             <% end %>

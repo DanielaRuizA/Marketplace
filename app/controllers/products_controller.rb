@@ -9,10 +9,10 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product.find(params[:id])
-  rescue ActiveRecord::RecordNotFound => e
-    Rails.logger.warn "Product not found: #{e.message}"
+  rescue ActiveRecord::RecordNotFound
     redirect_to root_path
   end
+  
 
   def new
     @product = Product.new
@@ -54,7 +54,7 @@ class ProductsController < ApplicationController
   def set_product
     @product = Product.find(params[:id])
   rescue ActiveRecord::RecordNotFound => e
-    redirect_to products_path, alert: "Product not found" 
+    redirect_to products_path, alert: "Product not found"
   end
 
   def authorize_user!
@@ -64,6 +64,6 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:name, :description, :price, :category_id)
+    params.require(:product).permit(:name, :description, :price, :category_id, :img)
   end
 end
